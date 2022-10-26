@@ -1,0 +1,10 @@
+{
+  "name": "include-html",
+  "version": "1.0.0",
+  "description": "Includes html files by telling the browser to download and render them",
+  "main": "src/include-html.js",
+  "repository": "https://github.com/bear-bones/include-html.git",
+  "author": "James White <james@thewhites.co>",
+  "license": "MIT",
+  "private": false
+}

@@ -1,0 +1,1 @@
+Believe it or not, you don't have to turn everything into javascript before you can use it in the browser. Imagine leveraging the web browser (a tool designed to efficiently download and render HTML documents) to efficiently download and render HTML documents! Wow much fun

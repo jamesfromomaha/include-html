@@ -6,5 +6,10 @@
   "repository": "https://github.com/bear-bones/include-html.git",
   "author": "James White <james@thewhites.co>",
   "license": "MIT",
-  "private": false
+  "private": false,
+  "devDependencies": {
+    "jasmine": "^4.4.0",
+    "jasmine-browser-runner": "^1.2.0",
+    "jasmine-core": "^4.4.0"
+  }
 }

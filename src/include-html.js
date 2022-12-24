@@ -18,21 +18,18 @@ class IncludeHtml extends HTMLElement {
   connectedCallback() {
     this.action = this.getAttribute('action');
     this.selector = this.getAttribute('selector');
-    this.url = this.getAttribute('src');
-    let self = this;
+    this.url = this.getAttribute('rel');
     let req = new XMLHttpRequest();
-    req.responseType = "document";
-    req.onload = 
-    req.open("GET", "file.html");
+    req.responseType = 'document';
+    req.onload = this.onresponse.bind(this);
+    req.open('GET', url);
     req.send();
-    // trigger the iframe load
-    this.iframe.src = this.url;
   }
 
   onresponse() {
-      let target = document.querySelector(self.selector);
-      if (target)
-        for (let el of req.response.body.children)
-          target[self.action](document.adoptNode(el));
-    };
+    let target = document.querySelector(this.selector);
+    if (target)
+      for (let el of req.response.body.children)
+        target[this.action](document.adoptNode(el));
+  };
 }

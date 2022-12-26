@@ -8,7 +8,8 @@
   "repository": "https://github.com/bear-bones/include-html.git",
   "main": "src/include-html.js",
   "scripts": {
-    "cy": "cypress open"
+    "cy": "nohup cypress open &",
+    "srv": "nohup node cypress/support/server.js &"
   },
   "devDependencies": {
     "cypress": "^12.2.0"

@@ -1,13 +1,17 @@
 class IncludeHtml extends HTMLElement {  
   // restrict action to valid values
+  _action = 'append';
+  get action() {
+    return this._action;
+  }
   set action(value) {
     switch (value) {
     case 'after': case 'append': case 'before': case 'prepend':
-      this.action = value;
+      this._action = value;
       break;
     default:
       console.warn('Invalid action %s; assuming append', value);
-      this.action = 'append';
+      this._action = 'append';
     }
   }
 
@@ -16,20 +20,24 @@ class IncludeHtml extends HTMLElement {
   }
 
   connectedCallback() {
-    this.action = this.getAttribute('action');
-    this.selector = this.getAttribute('selector');
-    this.url = this.getAttribute('rel');
+    let action = this.action = this.getAttribute('action');
+    let selector = this.getAttribute('selector');
+    let url = this.getAttribute('rel');
     let req = new XMLHttpRequest();
+    req.onload = function () {
+      let target = document.querySelector(selector);
+      if (target) {
+        let elements = req.response.body.children;
+        if (elements) {
+          document.adoptNode(req.response.body);
+          target[action](...elements);
+        }
+      }
+    };
     req.responseType = 'document';
-    req.onload = this.onresponse.bind(this);
     req.open('GET', url);
     req.send();
   }
-
-  onresponse() {
-    let target = document.querySelector(this.selector);
-    if (target)
-      for (let el of req.response.body.children)
-        target[this.action](document.adoptNode(el));
-  };
 }
+
+window.customElements.define('include-html', IncludeHtml);

@@ -1,5 +1,4 @@
 class IncludeHtml extends HTMLElement {  
-  // restrict action to valid values
   _action = 'append';
   get action() {
     return this._action;
@@ -10,8 +9,7 @@ class IncludeHtml extends HTMLElement {
       this._action = value;
       break;
     default:
-      console.warn('Invalid action %s; assuming append', value);
-      this._action = 'append';
+      console.warn(`Invalid action '${value}'`);
     }
   }
 
@@ -20,22 +18,20 @@ class IncludeHtml extends HTMLElement {
   }
 
   connectedCallback() {
-    let action = this.action = this.getAttribute('action');
-    let selector = this.getAttribute('selector');
-    let url = this.getAttribute('rel');
-    let req = new XMLHttpRequest();
-    req.onload = function () {
-      let target = document.querySelector(selector);
+    this.action = this.getAttribute('action');
+    const req = new XMLHttpRequest();
+    req.onload = () => {
+      const target = document.querySelector(this.getAttribute('selector'));
       if (target) {
-        let elements = req.response.body.children;
+        const elements = req.response.body.children;
         if (elements) {
           document.adoptNode(req.response.body);
-          target[action](...elements);
+          target[this.action](...elements);
         }
       }
     };
     req.responseType = 'document';
-    req.open('GET', url);
+    req.open('GET', this.getAttribute('rel'));
     req.send();
   }
 }

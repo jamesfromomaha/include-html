@@ -5,7 +5,7 @@
   "author": "James White <james@thewhites.co>",
   "license": "MIT",
   "private": false,
-  "repository": "https://github.com/bear-bones/include-html.git",
+  "repository": "https://github.com/jamesfromomaha/include-html.git",
   "main": "src/include-html.js",
   "scripts": {
     "cy": "nohup cypress open &",

@@ -9,7 +9,7 @@ class IncludeHtml extends HTMLElement {
       this._action = value;
       break;
     default:
-      console.warn(`Invalid action '${value}'`);
+      if (value) console.warn(`Invalid action '${value}'`);
     }
   }
 
@@ -21,12 +21,16 @@ class IncludeHtml extends HTMLElement {
     this.action = this.getAttribute('action');
     const req = new XMLHttpRequest();
     req.onload = () => {
-      const target = document.querySelector(this.getAttribute('selector'));
-      if (target) {
-        const elements = req.response.body.children;
-        if (elements) {
-          document.adoptNode(req.response.body);
-          target[this.action](...elements);
+      const { head, body } = req.response;
+      if (head || body) {
+        const target = document.querySelector(this.getAttribute('selector'));
+        if (target) {
+          let nodes = [];
+          if (head) nodes.push(...document.adoptNode(head).childNodes);
+          if (body) nodes.push(...document.adoptNode(body).childNodes);
+          target[this.action](...nodes);
+        } else {
+          console.warn(`Selector '${this.getAttribute('selector')}' did not find anything`);
         }
       }
     };
